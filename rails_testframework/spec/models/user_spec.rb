@@ -30,16 +30,35 @@ RSpec.describe User, :type => :model do
     end
 
     it "has posts counts" do
-      expect(user.post_count).to eq(1)
+      expect(user.post_count).to eq(0)
     end
 
     it "responds to the posts association" do
       expect(user).to respond_to(:posts)
     end
+  end
 
-    it "able to visit landing page" do 
-      visit users_path
+
+  feature "User pages" do
+    before do 
+      visit root_path
+    end
+
+    it "landing page is the root url" do
+      visit users_path 
       expect(current_path).to eq(users_path)
     end
+
+    it "can visit the new page" do
+      click_link "Create a new user"
+      expect(current_path).to eq(new_user_path)
+    end
+
+    it "can create a user with the forms" do 
+      click_link "Create a new user"
+      fill_in "Username", with: "autocreate"
+      expect{ click_button "Create User" }.to change(User, :count).by(1)
+    end
+
   end
 end
