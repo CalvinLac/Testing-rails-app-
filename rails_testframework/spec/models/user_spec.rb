@@ -36,5 +36,10 @@ RSpec.describe User, :type => :model do
     it "responds to the posts association" do
       expect(user).to respond_to(:posts)
     end
+
+    it "able to visit landing page" do 
+      visit users_path
+      expect(current_path).to eq(users_path)
+    end
   end
 end
